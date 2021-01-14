@@ -1,4 +1,4 @@
-# cyprus-covid-sms
+# Cyprus Covid SMS Application
 
 ## Project setup
 ```
