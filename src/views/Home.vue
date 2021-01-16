@@ -1,22 +1,40 @@
 <template>
   <v-container>
-    <div class="text-h4 mb-3">Go!!!</div>
-    <div class="text-subtitle mb-10">
-      Select the reason you want to get out of your home!
-    </div>
-    <div v-for="reason in reasons" :key="reason.smsNumber" class="my-5">
-      <v-btn color="primary" class="mb-2" @click="sendSMS(reason.smsNumber)">
-        ({{ reason.smsNumber }}) {{ reason.label }}
-      </v-btn>
-      <div class="caption">{{ reason.description }}</div>
-    </div>
+    <template v-if="profileData">
+      <div class="text-h4 mb-3">Go!!!</div>
+      <div class="text-subtitle mb-10">
+        Select the reason you want to get out of your home!
+      </div>
+      <div v-for="reason in reasons" :key="reason.smsNumber" class="my-5">
+        <v-btn color="primary" class="mb-2" @click="sendSMS(reason.smsNumber)">
+          ({{ reason.smsNumber }}) {{ reason.label }}
+        </v-btn>
+        <div class="caption">{{ reason.description }}</div>
+      </div>
+    </template>
+    <template v-else>
+      <div class="text-h4 mb-3">Setup your profile</div>
+      <div class="text-subtitle mb-10">
+        Please go to profile page to setup your account.
+      </div>
+      <div class="text-center">
+        <v-btn color="primary" @click="$router.push({ name: 'Profile' })">
+          Go To Profile
+        </v-btn>
+      </div>
+    </template>
   </v-container>
 </template>
 
 <script>
+import { registerWebPlugin, Plugins } from '@capacitor/core';
+import { SmsManager } from '@byteowls/capacitor-sms';
+const { Storage } = Plugins;
+
 export default {
   name: 'Home',
   data: () => ({
+    profileData: null,
     reasons: [
       {
         smsNumber: 1,
@@ -66,9 +84,24 @@ export default {
       },
     ],
   }),
+  created() {
+    registerWebPlugin(SmsManager);
+    this.setProfileData();
+  },
   methods: {
-    sendSMS(number) {
-      console.log('send sms', number);
+    async setProfileData() {
+      const profile = await Storage.get({ key: 'profileData' });
+      this.profileData = JSON.parse(profile.value);
+    },
+    async sendSMS(option) {
+      if (!this.profileData) return; // handle error!
+      const { id, zipCode } = this.profileData;
+      const number = '8998';
+      await Plugins.SmsManager.send({
+        numbers: [number],
+        text: `${option} ${id} ${zipCode}`,
+      });
+      console.log('sms has been sent', option);
     },
   },
 };

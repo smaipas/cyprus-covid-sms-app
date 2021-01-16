@@ -9,22 +9,52 @@
     </div>
     <v-text-field v-model="form.id" label="ID/ARC Number" filled></v-text-field>
     <v-text-field v-model="form.zipCode" label="Zip Code" filled></v-text-field>
-    <v-btn color="primary" @click="save">Save</v-btn>
+    <v-btn :disabled="!isFormDataChanged" color="primary" @click="save">
+      Save
+    </v-btn>
   </v-container>
 </template>
 
 <script>
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
+
 export default {
   name: 'Profile',
   data: () => ({
+    initialForm: {
+      id: '',
+      zipCode: '',
+    },
     form: {
       id: '',
       zipCode: '',
     },
   }),
+  computed: {
+    isFormDataChanged() {
+      const isIdChanged = this.initialForm.id !== this.form.id;
+      const isZipCodeChanged = this.initialForm.zipCode !== this.form.zipCode;
+      return isIdChanged || isZipCodeChanged;
+    },
+  },
+  created() {
+    this.initializeFormData();
+  },
   methods: {
-    save() {
-      console.log(this.form);
+    async initializeFormData() {
+      const profileData = await Storage.get({ key: 'profileData' });
+      if (profileData.value) {
+        this.initialForm = JSON.parse(profileData.value);
+        this.form = JSON.parse(profileData.value);
+      }
+    },
+    async save() {
+      await Storage.set({
+        key: 'profileData',
+        value: JSON.stringify({ ...this.form }),
+      });
+      this.initializeFormData();
     },
   },
 };

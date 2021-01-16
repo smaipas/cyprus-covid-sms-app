@@ -10,6 +10,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@byteowls/capacitor-sms": "^2.0.0",
+    "@capacitor/android": "^2.4.6",
+    "@capacitor/cli": "^2.4.6",
+    "@capacitor/core": "^2.4.6",
     "@mdi/font": "^3.6.95",
     "@mdi/js": "^5.8.55",
     "core-js": "^3.6.5",
