@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main class="light-blue lighten-5">
+    <v-main class="cyan lighten-5">
       <router-view />
     </v-main>
     <v-footer app padless>

@@ -1,19 +1,21 @@
 <template>
   <v-bottom-navigation
     :value="activeView"
-    color="white"
+    color="lime lighten-3"
     dark
-    background-color="light-blue darken-4"
+    shift
+    background-color="secondary"
   >
     <v-btn
       v-for="item in menuItems"
       :key="item.value"
-      color="transparent"
+      text
       :value="item.value"
       :data-test="item.label"
+      class="mt-2"
       @click="$router.push({ name: item.value })"
     >
-      <span>{{ item.label }}</span>
+      <span class="mt-2">{{ item.label }}</span>
       <v-icon>{{ item.icon }}</v-icon>
     </v-btn>
   </v-bottom-navigation>

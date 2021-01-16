@@ -11,20 +11,14 @@
         <div
           v-for="button in reasons"
           :key="button.smsNumber"
-          class="button__container light-blue darken-1"
+          class="button__container primary"
         >
-          <v-icon color="white" size="1.4em" class="mb-1">
+          <v-icon color="accent" size="1.4em" class="mb-1">
             {{ button.icon }}
           </v-icon>
-          <div class="button__label">{{ button.label }}</div>
-          <!-- <v-btn
-          color="primary"
-          class="mb-2"
-          @click="checkSmsPermissions(reason.smsNumber)"
-        >
-          ({{ reason.smsNumber }}) {{ reason.label }}
-        </v-btn>
-        <div class="caption">{{ reason.description }}</div> -->
+          <div class="button__label">
+            {{ button.label }}
+          </div>
         </div>
       </div>
     </template>
@@ -201,6 +195,7 @@ export default {
 }
 .button {
   &__container {
+    border-radius: 0.5em;
     color: white;
     padding: 1em;
     display: flex;
