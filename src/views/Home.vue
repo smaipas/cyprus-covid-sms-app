@@ -6,6 +6,9 @@
       </div>
       <div class="text-subtitle mb-10">
         Select the reason you want to get out of your home!
+        <span class="primary--text" @click="showMoreInfoDialog = true">
+          More Info
+        </span>
       </div>
       <div class="buttons__wrapper">
         <div
@@ -46,6 +49,14 @@
         </v-btn>
       </template>
     </v-snackbar>
+    <v-dialog
+      v-model="showMoreInfoDialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <MoreInfo :reasons="reasons" @close="showMoreInfoDialog = false" />
+    </v-dialog>
   </v-container>
 </template>
 
@@ -63,11 +74,14 @@ import {
   mdiStarOutline,
   mdiHelpCircleOutline,
 } from '@mdi/js';
+import MoreInfo from '@/components/home/MoreInfo.vue';
 
 export default {
   name: 'Home',
+  components: { MoreInfo },
   data: () => ({
     profileData: null,
+    showMoreInfoDialog: false,
     snackbar: {
       status: false,
       text: '',
@@ -78,55 +92,55 @@ export default {
         smsNumber: 1,
         label: 'Pharmacy / Doctor',
         icon: mdiHospitalBoxOutline,
-        description:
-          'Pharmacy or blood donation or doctor visit or Covid test or vaccination',
+        description: `Going to a pharmacy, visiting a physician or for blood donation or laboratory testing
+          for Covid-19 or for vaccination at the vaccination centres.`,
       },
       {
         smsNumber: 2,
         label: 'Shopping',
         icon: mdiBasketOutline,
-        description: 'Shopping for supplies/services, including take away',
+        description: `Going to a shop for essential goods/services, including take away.`,
       },
       {
         smsNumber: 3,
         label: 'Bank',
         icon: mdiCurrencyEur,
-        description: 'Bank, if an online transaction is not possible',
+        description: 'Going to the bank for transactions not available online.',
       },
       {
         smsNumber: 4,
         label: 'Government',
         icon: mdiBankOutline,
-        description:
-          'Absolutely necessary visit to government departments or departments of the wider public sector or local administration',
+        description: `Strictly necessary visits to public services or services of the wider public sector and local
+          authorities.`,
       },
       {
         smsNumber: 5,
         label: 'Help people',
         icon: mdiHandshakeOutline,
-        description:
-          'To help people who cannot look after themselves or cannot protect themselves or are in isolation at home or designated quarantine premises',
+        description: `Helping people who cannot take care of themselves or people who must protect 
+          themselves or who are in self-isolation and/or in places of compulsory isolation (quarantine).`,
       },
       {
         smsNumber: 6,
         label: 'Exercise',
         icon: mdiRun,
         description:
-          'Physical exercise or individual training provided access is allowed at the venue',
+          'Physical activity or individual sports practiced in areas were access is permitted.',
       },
       {
         smsNumber: 7,
         label: 'Ceremonies',
         icon: mdiStarOutline,
-        description:
-          'To attend a funeral, wedding, christening, by first and second degree relatives who do not exceed 10 or for individual prayer',
+        description: `Going to a ceremony (e.g. funeral, wedding, christening) of first and 
+          second degree relatives not exceeding 10 people or for individual prayer`,
       },
       {
         smsNumber: 8,
         label: 'Other',
         icon: mdiHelpCircleOutline,
-        description:
-          'Any other reason that can be justified on the basis of the restrictions',
+        description: `Any other reason that may be justified under the lockdown measures (by presenting the
+          necessary proof for each case)`,
       },
     ],
   }),
