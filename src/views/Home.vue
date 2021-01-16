@@ -6,7 +6,11 @@
         Select the reason you want to get out of your home!
       </div>
       <div v-for="reason in reasons" :key="reason.smsNumber" class="my-5">
-        <v-btn color="primary" class="mb-2" @click="sendSMS(reason.smsNumber)">
+        <v-btn
+          color="primary"
+          class="mb-2"
+          @click="checkSmsPermissions(reason.smsNumber)"
+        >
           ({{ reason.smsNumber }}) {{ reason.label }}
         </v-btn>
         <div class="caption">{{ reason.description }}</div>
@@ -23,18 +27,36 @@
         </v-btn>
       </div>
     </template>
+    <v-snackbar v-model="snackbar.status">
+      {{ snackbar.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="snackbar.color"
+          text
+          v-bind="attrs"
+          @click="snackbar.status = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
-import { registerWebPlugin, Plugins } from '@capacitor/core';
-import { SmsManager } from '@byteowls/capacitor-sms';
+import { Plugins } from '@capacitor/core';
+import { SMS } from '@ionic-native/sms';
 const { Storage } = Plugins;
 
 export default {
   name: 'Home',
   data: () => ({
     profileData: null,
+    snackbar: {
+      status: false,
+      text: '',
+      color: 'green',
+    },
     reasons: [
       {
         smsNumber: 1,
@@ -85,7 +107,6 @@ export default {
     ],
   }),
   created() {
-    registerWebPlugin(SmsManager);
     this.setProfileData();
   },
   methods: {
@@ -93,15 +114,50 @@ export default {
       const profile = await Storage.get({ key: 'profileData' });
       this.profileData = JSON.parse(profile.value);
     },
-    async sendSMS(option) {
-      if (!this.profileData) return; // handle error!
+    async checkSmsPermissions(smsReason) {
+      try {
+        await SMS.hasPermission();
+        this.sendSMS(smsReason);
+      } catch (error) {
+        this.requestSmsPermissions(smsReason);
+      }
+    },
+    async requestSmsPermissions(smsReason) {
+      try {
+        await SMS.requestPermission();
+        await this.sendSMS(smsReason);
+      } catch (error) {
+        this.snackbar = {
+          status: true,
+          text: `You don't have the required permissions to send an SMS`,
+          color: 'red',
+        };
+      }
+    },
+    async sendSMS(smsReason) {
       const { id, zipCode } = this.profileData;
       const number = '8998';
-      await Plugins.SmsManager.send({
-        numbers: [number],
-        text: `${option} ${id} ${zipCode}`,
-      });
-      console.log('sms has been sent', option);
+      const message = `${smsReason} ${id} ${zipCode}`;
+      const options = {
+        android: {
+          // intent: 'INTENT',
+          intent: '',
+        },
+      };
+      try {
+        await SMS.send(number, message, options);
+        this.snackbar = {
+          status: true,
+          text: 'Your SMS has been sent successfully!',
+          color: 'green',
+        };
+      } catch (error) {
+        this.snackbar = {
+          status: true,
+          text: error,
+          color: 'red',
+        };
+      }
     },
   },
 };
