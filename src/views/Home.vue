@@ -1,19 +1,31 @@
 <template>
   <v-container>
     <template v-if="profileData">
-      <div class="text-h4 mb-3">Go!!!</div>
+      <div class="text-h4 mb-3">
+        Permission Request
+      </div>
       <div class="text-subtitle mb-10">
         Select the reason you want to get out of your home!
       </div>
-      <div v-for="reason in reasons" :key="reason.smsNumber" class="my-5">
-        <v-btn
+      <div class="buttons__wrapper">
+        <div
+          v-for="button in reasons"
+          :key="button.smsNumber"
+          class="button__container light-blue darken-1"
+        >
+          <v-icon color="white" size="1.4em" class="mb-1">
+            {{ button.icon }}
+          </v-icon>
+          <div class="button__label">{{ button.label }}</div>
+          <!-- <v-btn
           color="primary"
           class="mb-2"
           @click="checkSmsPermissions(reason.smsNumber)"
         >
           ({{ reason.smsNumber }}) {{ reason.label }}
         </v-btn>
-        <div class="caption">{{ reason.description }}</div>
+        <div class="caption">{{ reason.description }}</div> -->
+        </div>
       </div>
     </template>
     <template v-else>
@@ -47,6 +59,16 @@
 import { Plugins } from '@capacitor/core';
 import { SMS } from '@ionic-native/sms';
 const { Storage } = Plugins;
+import {
+  mdiHospitalBoxOutline,
+  mdiBasketOutline,
+  mdiCurrencyEur,
+  mdiBankOutline,
+  mdiHandshakeOutline,
+  mdiRun,
+  mdiStarOutline,
+  mdiHelpCircleOutline,
+} from '@mdi/js';
 
 export default {
   name: 'Home',
@@ -60,47 +82,55 @@ export default {
     reasons: [
       {
         smsNumber: 1,
-        label: 'Pharmacy',
+        label: 'Pharmacy / Doctor',
+        icon: mdiHospitalBoxOutline,
         description:
           'Pharmacy or blood donation or doctor visit or Covid test or vaccination',
       },
       {
         smsNumber: 2,
         label: 'Shopping',
+        icon: mdiBasketOutline,
         description: 'Shopping for supplies/services, including take away',
       },
       {
         smsNumber: 3,
         label: 'Bank',
+        icon: mdiCurrencyEur,
         description: 'Bank, if an online transaction is not possible',
       },
       {
         smsNumber: 4,
         label: 'Government',
+        icon: mdiBankOutline,
         description:
           'Absolutely necessary visit to government departments or departments of the wider public sector or local administration',
       },
       {
         smsNumber: 5,
         label: 'Help people',
+        icon: mdiHandshakeOutline,
         description:
           'To help people who cannot look after themselves or cannot protect themselves or are in isolation at home or designated quarantine premises',
       },
       {
         smsNumber: 6,
         label: 'Exercise',
+        icon: mdiRun,
         description:
           'Physical exercise or individual training provided access is allowed at the venue',
       },
       {
         smsNumber: 7,
-        label: 'Events',
+        label: 'Ceremonies',
+        icon: mdiStarOutline,
         description:
           'To attend a funeral, wedding, christening, by first and second degree relatives who do not exceed 10 or for individual prayer',
       },
       {
         smsNumber: 8,
         label: 'Other',
+        icon: mdiHelpCircleOutline,
         description:
           'Any other reason that can be justified on the basis of the restrictions',
       },
@@ -162,3 +192,24 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.buttons__wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+  gap: 1em;
+}
+.button {
+  &__container {
+    color: white;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__label {
+    font-size: 0.9em;
+  }
+}
+</style>

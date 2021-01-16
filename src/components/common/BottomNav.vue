@@ -1,5 +1,10 @@
 <template>
-  <v-bottom-navigation :value="activeView" color="primary">
+  <v-bottom-navigation
+    :value="activeView"
+    color="white"
+    dark
+    background-color="light-blue darken-4"
+  >
     <v-btn
       v-for="item in menuItems"
       :key="item.value"
