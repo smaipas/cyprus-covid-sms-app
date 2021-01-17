@@ -1,4 +1,5 @@
 # Cyprus Covid SMS Application
+Request SMS permission to move during Covid curfew without having to memorize all sms codes and then copy and paste or even write manually the code ID/ARC/Passport no. and the zip code to get an approval to get out of home.
 
 ## Project setup
 ```
@@ -30,5 +31,21 @@ npm run test:e2e
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Build app for android
+This application uses capacitor.js and cordova to support sending SMS.
+Capacitor documentation can be found on the following link:
+https://capacitorjs.com/docs/basics/building-your-app
+
+Build your app:
+```
+npm run build
+```
+Once your web code is built, it needs to be copied into each native project:
+```
+npm run build:cap
+```
+Android relies on Android Studio (or, optionally, the Android CLI tools) to build the app:
+```
+npm run build:android
+```
+Once Android Studio launches, you can build your app through the standard Android Studio workflow.
