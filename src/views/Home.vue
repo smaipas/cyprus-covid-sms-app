@@ -205,7 +205,7 @@ export default {
 <style lang="scss" scoped>
 .buttons__wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
   gap: 1em;
 }
 .button {
@@ -217,6 +217,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
   &__label {
     font-size: 0.9em;
