@@ -15,7 +15,7 @@
           v-for="button in reasons"
           :key="button.smsNumber"
           class="button__container primary"
-          @click="requestSmsPermissions(button.smsNumber)"
+          @click="checkSmsPermissions(button.smsNumber)"
         >
           <v-icon color="accent" size="1.4em" class="mb-1">
             {{ button.icon }}
