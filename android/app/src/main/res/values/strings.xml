@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">cyprus-covid-sms</string>
-    <string name="title_activity_main">cyprus-covid-sms</string>
-    <string name="package_name">com.cypruscovidsms.app</string>
-    <string name="custom_url_scheme">com.cypruscovidsms.app</string>
+    <string name="app_name">Cyprus Covid SMS Permission</string>
+    <string name="title_activity_main">Cyprus Covid SMS Permission</string>
+    <string name="package_name">com.cypruscovidsmspermission.app</string>
+    <string name="custom_url_scheme">com.cypruscovidsmspermission.app</string>
 </resources>

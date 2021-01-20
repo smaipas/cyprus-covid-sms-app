@@ -1,4 +1,4 @@
-package com.cypruscovidsms.app;
+package com.cypruscovidsmspermission.app;
 
 import android.os.Bundle;
 

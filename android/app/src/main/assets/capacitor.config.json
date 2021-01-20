@@ -1,6 +1,6 @@
 {
-  "appId": "com.cypruscovidsms.app",
-  "appName": "cyprus-covid-sms",
+  "appId": "com.cypruscovidsmspermission.app",
+  "appName": "cyprus-covid-sms-permission",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
